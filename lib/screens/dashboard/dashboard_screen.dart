@@ -1,3 +1,5 @@
+import '../../utils/icon_helper.dart';
+import 'package:amicons/amicons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -45,7 +47,10 @@ class DashboardScreen extends ConsumerWidget {
                     child: SafeArea(
                       bottom: false,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 16,
+                        ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -55,7 +60,10 @@ class DashboardScreen extends ConsumerWidget {
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 shape: BoxShape.circle,
-                                border: Border.all(color: Colors.white24, width: 2),
+                                border: Border.all(
+                                  color: Colors.white24,
+                                  width: 2,
+                                ),
                               ),
                               child: const Icon(
                                 Icons.person,
@@ -97,15 +105,24 @@ class DashboardScreen extends ConsumerWidget {
                                   ),
                                   const SizedBox(height: 4),
                                   Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 4,
+                                    ),
                                     decoration: BoxDecoration(
-                                      color: Colors.black.withValues(alpha: 0.15),
+                                      color: Colors.black.withValues(
+                                        alpha: 0.15,
+                                      ),
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: const Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(Icons.location_on, color: Colors.white, size: 12),
+                                        Icon(
+                                          Icons.location_on,
+                                          color: Colors.white,
+                                          size: 12,
+                                        ),
                                         SizedBox(width: 4),
                                         Text(
                                           'Plaju Darat, Palembang',
@@ -133,7 +150,10 @@ class DashboardScreen extends ConsumerWidget {
                     left: 20,
                     right: 20,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 20,
+                        horizontal: 16,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(24),
@@ -147,14 +167,22 @@ class DashboardScreen extends ConsumerWidget {
                             icon: Icons.assignment_outlined,
                             baseColor: FGColors.primary,
                           ),
-                          Container(width: 1, height: 40, color: FGColors.border),
+                          Container(
+                            width: 1,
+                            height: 40,
+                            color: FGColors.border,
+                          ),
                           _StatColumn(
                             label: 'Aktif',
                             value: '${stats['active']}',
                             icon: Icons.local_fire_department_outlined,
                             baseColor: FGColors.orange,
                           ),
-                          Container(width: 1, height: 40, color: FGColors.border),
+                          Container(
+                            width: 1,
+                            height: 40,
+                            color: FGColors.border,
+                          ),
                           _StatColumn(
                             label: 'Selesai',
                             value: '${stats['completed']}',
@@ -169,12 +197,16 @@ class DashboardScreen extends ConsumerWidget {
               ),
             ),
 
-            const SliverToBoxAdapter(child: SizedBox(height: 50)), // Space for floating card
-
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 50),
+            ), // Space for floating card
             // Quick Actions Grid (Gojek-like menus)
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 8,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -192,25 +224,27 @@ class DashboardScreen extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         _QuickActionIcon(
-                          iconPath: '🔥',
+                          icon: Amicons.remix_fire_fill,
                           label: 'Kebakaran',
                           color: FGColors.primary,
-                          onTap: () => context.go('/report/new?category=Kebakaran'),
+                          onTap: () =>
+                              context.go('/report/new?category=Kebakaran'),
                         ),
                         _QuickActionIcon(
-                          iconPath: '🌊',
+                          icon: Amicons.remix_flood_fill,
                           label: 'Banjir',
                           color: Colors.blue,
-                          onTap: () => context.go('/report/new?category=Banjir'),
+                          onTap: () =>
+                              context.go('/report/new?category=Banjir'),
                         ),
                         _QuickActionIcon(
-                          iconPath: '🏚️',
+                          icon: Amicons.remix_earthquake_fill,
                           label: 'Gempa',
                           color: Colors.brown.shade700,
                           onTap: () => context.go('/report/new?category=Gempa'),
                         ),
                         _QuickActionIcon(
-                          iconPath: '🌪️',
+                          icon: Amicons.remix_tornado_fill,
                           label: 'Puting Beliung',
                           color: Colors.grey.shade700,
                           onTap: () => context.go('/report/new?category=Angin'),
@@ -251,22 +285,19 @@ class DashboardScreen extends ConsumerWidget {
             reportsAsync.when(
               data: (reports) {
                 if (reports.isEmpty) {
-                  return const SliverToBoxAdapter(
-                    child: _EmptyState(),
-                  );
+                  return const SliverToBoxAdapter(child: _EmptyState());
                 }
                 return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      if (index >= reports.length) return null;
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 8),
-                        child: _ReportCard(report: reports[index]),
-                      );
-                    },
-                    childCount: reports.length.clamp(0, 5),
-                  ),
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    if (index >= reports.length) return null;
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 8,
+                      ),
+                      child: _ReportCard(report: reports[index]),
+                    );
+                  }, childCount: reports.length.clamp(0, 5)),
                 );
               },
               loading: () => const SliverToBoxAdapter(
@@ -289,7 +320,7 @@ class DashboardScreen extends ConsumerWidget {
                 ),
               ),
             ),
-            
+
             const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
             // Divider
@@ -301,22 +332,16 @@ class DashboardScreen extends ConsumerWidget {
             ),
 
             const SliverToBoxAdapter(child: SizedBox(height: 24)),
-            
-            const SliverToBoxAdapter(
-              child: _WeatherSection(),
-            ),
+
+            const SliverToBoxAdapter(child: _WeatherSection()),
 
             const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
-            const SliverToBoxAdapter(
-              child: _EmergencyContacts(),
-            ),
+            const SliverToBoxAdapter(child: _EmergencyContacts()),
 
             const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
-            const SliverToBoxAdapter(
-              child: _SafetyTips(),
-            ),
+            const SliverToBoxAdapter(child: _SafetyTips()),
 
             const SliverToBoxAdapter(child: SizedBox(height: 100)),
           ],
@@ -365,10 +390,7 @@ class _StatColumn extends StatelessWidget {
           const SizedBox(height: 2),
           Text(
             label,
-            style: const TextStyle(
-              color: FGColors.textSecondary,
-              fontSize: 11,
-            ),
+            style: const TextStyle(color: FGColors.textSecondary, fontSize: 11),
             textAlign: TextAlign.center,
           ),
         ],
@@ -378,13 +400,13 @@ class _StatColumn extends StatelessWidget {
 }
 
 class _QuickActionIcon extends StatelessWidget {
-  final String iconPath; // using emoji as placeholder for rich icons
+  final IconData icon; // using emoji as placeholder for rich icons
   final String label;
   final Color color;
   final VoidCallback onTap;
 
   const _QuickActionIcon({
-    required this.iconPath,
+    required this.icon,
     required this.label,
     required this.color,
     required this.onTap,
@@ -405,12 +427,7 @@ class _QuickActionIcon extends StatelessWidget {
                 color: color.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(18),
               ),
-              child: Center(
-                child: Text(
-                  iconPath,
-                  style: const TextStyle(fontSize: 28),
-                ),
-              ),
+              child: Center(child: Icon(icon, size: 28, color: color)),
             ),
             const SizedBox(height: 8),
             Text(
@@ -442,7 +459,7 @@ class _ReportCard extends ConsumerWidget {
       onTap: () async {
         // Push ke halaman detail laporan
         await context.push('/report/${report.id}');
-        
+
         // Refresh laporan di beranda setelah kembali
         ref.read(myReportsProvider.notifier).refresh();
       },
@@ -466,9 +483,10 @@ class _ReportCard extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Center(
-                child: Text(
-                  report.categoryIcon ?? '🔥',
-                  style: const TextStyle(fontSize: 26),
+                child: Icon(
+                  getAmiconFromEmoji(report.categoryIcon),
+                  size: 26,
+                  color: FGColors.primary,
                 ),
               ),
             ),
@@ -494,9 +512,14 @@ class _ReportCard extends ConsumerWidget {
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
-                          color: FGColors.statusColor(report.status).withValues(alpha: 0.1),
+                          color: FGColors.statusColor(
+                            report.status,
+                          ).withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
@@ -523,7 +546,11 @@ class _ReportCard extends ConsumerWidget {
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      const Icon(Icons.access_time, size: 12, color: FGColors.textTertiary),
+                      const Icon(
+                        Icons.access_time,
+                        size: 12,
+                        color: FGColors.textTertiary,
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         _formatTime(report.createdAt),
@@ -574,8 +601,11 @@ class _EmptyState extends StatelessWidget {
               color: FGColors.bg,
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.assignment_outlined,
-                size: 40, color: FGColors.textTertiary),
+            child: const Icon(
+              Icons.assignment_outlined,
+              size: 40,
+              color: FGColors.textTertiary,
+            ),
           ),
           const SizedBox(height: 16),
           const Text(
@@ -638,7 +668,10 @@ class _WeatherSection extends ConsumerWidget {
                 color: Colors.red.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: const Text('Gagal mengambil data cuaca.', style: TextStyle(color: Colors.red)),
+              child: const Text(
+                'Gagal mengambil data cuaca.',
+                style: TextStyle(color: Colors.red),
+              ),
             ),
           ),
         ),
@@ -652,7 +685,7 @@ class _WeatherSection extends ConsumerWidget {
     final condition = conditionParts
         .map((w) => w.isNotEmpty ? w[0].toUpperCase() + w.substring(1) : w)
         .join(' ');
-    
+
     // URL Ikon Cuaca resmi dari OpenWeatherMap
     final iconUrl = 'https://openweathermap.org/img/wn/${weather.icon}@2x.png';
 
@@ -674,7 +707,11 @@ class _WeatherSection extends ConsumerWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.location_on, size: 16, color: Colors.blue.shade600),
+                        Icon(
+                          Icons.location_on,
+                          size: 16,
+                          color: Colors.blue.shade600,
+                        ),
                         const SizedBox(width: 4),
                         Flexible(
                           child: Text(
@@ -724,12 +761,13 @@ class _WeatherSection extends ConsumerWidget {
                       color: Colors.blue.withValues(alpha: 0.1),
                       blurRadius: 15,
                       offset: const Offset(0, 5),
-                    )
-                  ]
+                    ),
+                  ],
                 ),
                 child: Image.network(
                   iconUrl,
-                  errorBuilder: (c, e, s) => Icon(Icons.cloud, size: 50, color: Colors.blue.shade300),
+                  errorBuilder: (c, e, s) =>
+                      Icon(Icons.cloud, size: 50, color: Colors.blue.shade300),
                 ),
               ),
             ],
@@ -745,16 +783,42 @@ class _WeatherSection extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(child: _WeatherDetailItem(icon: Icons.water_drop, label: 'Lembab', value: '${weather.humidity}%')),
-                Container(width: 1, height: 30, color: Colors.blue.withValues(alpha: 0.2)),
+                Expanded(
+                  child: _WeatherDetailItem(
+                    icon: Icons.water_drop,
+                    label: 'Lembab',
+                    value: '${weather.humidity}%',
+                  ),
+                ),
+                Container(
+                  width: 1,
+                  height: 30,
+                  color: Colors.blue.withValues(alpha: 0.2),
+                ),
                 const SizedBox(width: 8),
-                Expanded(child: _WeatherDetailItem(icon: Icons.air, label: 'Angin', value: '${weather.windSpeed}m/s')),
-                Container(width: 1, height: 30, color: Colors.blue.withValues(alpha: 0.2)),
+                Expanded(
+                  child: _WeatherDetailItem(
+                    icon: Icons.air,
+                    label: 'Angin',
+                    value: '${weather.windSpeed}m/s',
+                  ),
+                ),
+                Container(
+                  width: 1,
+                  height: 30,
+                  color: Colors.blue.withValues(alpha: 0.2),
+                ),
                 const SizedBox(width: 8),
-                Expanded(child: _WeatherDetailItem(icon: Icons.visibility, label: 'Terasa', value: '${(weather.temp + 1).round()}°C')),
+                Expanded(
+                  child: _WeatherDetailItem(
+                    icon: Icons.visibility,
+                    label: 'Terasa',
+                    value: '${(weather.temp + 1).round()}°C',
+                  ),
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -783,9 +847,27 @@ class _WeatherDetailItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: TextStyle(fontSize: 10, color: Colors.blue.shade700, fontWeight: FontWeight.w500), maxLines: 1, overflow: TextOverflow.ellipsis),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Colors.blue.shade700,
+                  fontWeight: FontWeight.w500,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
               const SizedBox(height: 2),
-              Text(value, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.blue.shade900), maxLines: 1, overflow: TextOverflow.ellipsis),
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue.shade900,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ],
           ),
         ),
@@ -908,7 +990,10 @@ class _EmergencyCard extends StatelessWidget {
                   children: [
                     Icon(icon, color: color, size: 24),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
                         color: color,
                         borderRadius: BorderRadius.circular(8),
@@ -972,19 +1057,19 @@ class _SafetyTips extends StatelessWidget {
               _TipCard(
                 title: 'Tas Siaga Bencana',
                 subtitle: 'Persiapkan tas berisi dokumen penting & obat-obatan',
-                icon: '🎒',
+                icon: Amicons.iconly_bag_2_fill,
                 color: Color(0xFFFDE68A),
               ),
               _TipCard(
                 title: 'Ketika Gempa Terjadi',
                 subtitle: 'Jangan panik, berlindung di bawah meja yang kuat',
-                icon: '🏚️',
+                icon: Amicons.remix_earthquake_fill,
                 color: Color(0xFFFED7AA),
               ),
               _TipCard(
                 title: 'Mencegah Korsleting',
                 subtitle: 'Pastikan kabel di rumah tidak ada yang terkelupas',
-                icon: '⚡',
+                icon: Amicons.remix_flashlight_fill,
                 color: Color(0xFFFECACA),
               ),
             ],
@@ -998,7 +1083,7 @@ class _SafetyTips extends StatelessWidget {
 class _TipCard extends StatelessWidget {
   final String title;
   final String subtitle;
-  final String icon;
+  final IconData icon;
   final Color color;
 
   const _TipCard({
@@ -1022,9 +1107,10 @@ class _TipCard extends StatelessWidget {
           Positioned(
             right: -20,
             bottom: -15,
-            child: Text(
+            child: Icon(
               icon,
-              style: TextStyle(fontSize: 90, color: Colors.black.withValues(alpha: 0.08)),
+              size: 90,
+              color: Colors.black.withValues(alpha: 0.08),
             ),
           ),
           Padding(
@@ -1032,10 +1118,7 @@ class _TipCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  icon,
-                  style: const TextStyle(fontSize: 28),
-                ),
+                Icon(icon, size: 28, color: FGColors.textPrimary),
                 const Spacer(),
                 Text(
                   title,

@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../config/api_config.dart';
+import '../../utils/icon_helper.dart';
 import '../../config/theme.dart';
 import '../../models/notification_model.dart';
 import '../../providers/report_provider.dart';
@@ -52,7 +53,9 @@ class _NewReportScreenState extends ConsumerState<NewReportScreen> {
   void initState() {
     super.initState();
     _loadMasterData();
-    _setFireLocationFromDevice();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _setFireLocationFromDevice();
+    });
   }
 
   @override
@@ -87,13 +90,15 @@ class _NewReportScreenState extends ConsumerState<NewReportScreen> {
         if (!hasCurrent) {
           if (widget.initialCategory != null) {
             final initialMatchIndex = categories.indexWhere(
-              (c) => c.name.toLowerCase().contains(widget.initialCategory!.toLowerCase()),
+              (c) => c.name.toLowerCase().contains(
+                widget.initialCategory!.toLowerCase(),
+              ),
             );
             if (initialMatchIndex >= 0) {
               categoryId = categories[initialMatchIndex].id;
             }
           }
-          
+
           if (categoryId == null) {
             final kebakaranIndex = categories.indexWhere(
               (c) => c.id == 1 || c.name.toLowerCase().contains('kebakaran'),
@@ -328,7 +333,10 @@ class _NewReportScreenState extends ConsumerState<NewReportScreen> {
                   child: CircleAvatar(
                     backgroundColor: Colors.white,
                     child: IconButton(
-                      icon: const Icon(Icons.arrow_back, color: FGColors.textPrimary),
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: FGColors.textPrimary,
+                      ),
                       onPressed: () => context.go('/dashboard'),
                     ),
                   ),
@@ -342,11 +350,13 @@ class _NewReportScreenState extends ConsumerState<NewReportScreen> {
                         options: MapOptions(
                           initialCenter: _fireLocation,
                           initialZoom: 15,
-                          onTap: (_, latlng) => setState(() => _fireLocation = latlng),
+                          onTap: (_, latlng) =>
+                              setState(() => _fireLocation = latlng),
                         ),
                         children: [
                           TileLayer(
-                            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                            urlTemplate:
+                                'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                             userAgentPackageName: 'com.fireguard.fireguard_app',
                             tileProvider: NetworkTileProvider(
                               headers: {
@@ -397,7 +407,10 @@ class _NewReportScreenState extends ConsumerState<NewReportScreen> {
                                     color: FGColors.primary,
                                   ),
                                 )
-                              : const Icon(Icons.my_location, color: FGColors.primary),
+                              : const Icon(
+                                  Icons.my_location,
+                                  color: FGColors.primary,
+                                ),
                         ),
                       ),
                     ],
@@ -447,7 +460,10 @@ class _NewReportScreenState extends ConsumerState<NewReportScreen> {
                       const SizedBox(height: 4),
                       const Text(
                         'Isi data laporan sesuai form website.',
-                        style: TextStyle(fontSize: 13, color: FGColors.textSecondary),
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: FGColors.textSecondary,
+                        ),
                       ),
                       const SizedBox(height: 16),
                       Row(
@@ -455,18 +471,32 @@ class _NewReportScreenState extends ConsumerState<NewReportScreen> {
                           Expanded(
                             child: ElevatedButton.icon(
                               onPressed: _setFireLocationFromDevice,
-                              icon: const Icon(Icons.local_fire_department, color: FGColors.primary),
+                              icon: const Icon(
+                                Icons.local_fire_department,
+                                color: FGColors.primary,
+                              ),
                               label: const Text(
                                 'Lokasi Kejadian',
-                                style: TextStyle(color: FGColors.primary, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                  color: FGColors.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: FGColors.primary.withValues(alpha: 0.1),
+                                backgroundColor: FGColors.primary.withValues(
+                                  alpha: 0.1,
+                                ),
                                 elevation: 0,
-                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 14,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
-                                  side: BorderSide(color: FGColors.primary.withValues(alpha: 0.2)),
+                                  side: BorderSide(
+                                    color: FGColors.primary.withValues(
+                                      alpha: 0.2,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -475,18 +505,30 @@ class _NewReportScreenState extends ConsumerState<NewReportScreen> {
                           Expanded(
                             child: ElevatedButton.icon(
                               onPressed: _setReporterLocationFromDevice,
-                              icon: const Icon(Icons.person_pin_circle, color: Colors.blue),
+                              icon: const Icon(
+                                Icons.person_pin_circle,
+                                color: Colors.blue,
+                              ),
                               label: const Text(
                                 'Lokasi Saya',
-                                style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue.withValues(alpha: 0.1),
+                                backgroundColor: Colors.blue.withValues(
+                                  alpha: 0.1,
+                                ),
                                 elevation: 0,
-                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 14,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
-                                  side: BorderSide(color: Colors.blue.withValues(alpha: 0.2)),
+                                  side: BorderSide(
+                                    color: Colors.blue.withValues(alpha: 0.2),
+                                  ),
                                 ),
                               ),
                             ),
@@ -505,7 +547,10 @@ class _NewReportScreenState extends ConsumerState<NewReportScreen> {
                           ),
                           child: Row(
                             children: [
-                              const Icon(Icons.warning_amber_rounded, color: Colors.orange),
+                              const Icon(
+                                Icons.warning_amber_rounded,
+                                color: Colors.orange,
+                              ),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
@@ -527,92 +572,170 @@ class _NewReportScreenState extends ConsumerState<NewReportScreen> {
                         const Padding(
                           padding: EdgeInsets.symmetric(vertical: 16),
                           child: Center(
-                            child: CircularProgressIndicator(color: FGColors.primary),
+                            child: CircularProgressIndicator(
+                              color: FGColors.primary,
+                            ),
                           ),
                         )
                       else ...[
                         const Text(
                           'Kategori Bencana',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: FGColors.textPrimary),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13,
+                            color: FGColors.textPrimary,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         DropdownButtonFormField<int>(
                           isExpanded: true,
-                          value: _categoryId,
+                          initialValue: _categoryId,
                           items: _categories
                               .map(
                                 (c) => DropdownMenuItem<int>(
                                   value: c.id,
-                                  child: Text(
-                                    '${c.icon} ${c.name}',
-                                    style: const TextStyle(fontWeight: FontWeight.w500),
-                                    overflow: TextOverflow.ellipsis,
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        getAmiconFromEmoji(c.icon),
+                                        size: 20,
+                                        color: FGColors.primary,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Expanded(
+                                        child: Text(
+                                          c.name,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               )
                               .toList(),
-                          onChanged: (value) => setState(() => _categoryId = value),
-                          decoration: _customInputDecoration('Pilih kategori bencana', Icons.category_outlined),
+                          onChanged: (value) =>
+                              setState(() => _categoryId = value),
+                          decoration: _customInputDecoration(
+                            'Pilih kategori bencana',
+                            Icons.category_outlined,
+                          ),
+                          icon: const Icon(
+                            Icons.keyboard_arrow_down_rounded,
+                            color: FGColors.primary,
+                          ),
+                          dropdownColor: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
                         ),
                         const SizedBox(height: 20),
                         const Text(
                           'Kelurahan Lokasi Kejadian',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: FGColors.textPrimary),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13,
+                            color: FGColors.textPrimary,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         DropdownButtonFormField<int>(
                           isExpanded: true,
-                          value: _kelurahanId,
+                          initialValue: _kelurahanId,
                           items: _kelurahanList
                               .map(
                                 (k) => DropdownMenuItem<int>(
                                   value: k.id,
-                                  child: Text(
-                                    k.name,
-                                    style: const TextStyle(fontWeight: FontWeight.w500),
-                                    overflow: TextOverflow.ellipsis,
+                                  child: Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.location_city_rounded,
+                                        size: 20,
+                                        color: FGColors.primary,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Expanded(
+                                        child: Text(
+                                          k.name,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               )
                               .toList(),
-                          onChanged: (value) => setState(() => _kelurahanId = value),
-                          decoration: _customInputDecoration('Pilih kelurahan kejadian', Icons.map_outlined),
+                          onChanged: (value) =>
+                              setState(() => _kelurahanId = value),
+                          decoration: _customInputDecoration(
+                            'Pilih kelurahan kejadian',
+                            Icons.map_outlined,
+                          ),
+                          icon: const Icon(
+                            Icons.keyboard_arrow_down_rounded,
+                            color: FGColors.primary,
+                          ),
+                          dropdownColor: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
                         ),
                         const SizedBox(height: 24),
                       ],
                       const Text(
                         'Deskripsi Detail',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: FGColors.textPrimary),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                          color: FGColors.textPrimary,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       TextField(
                         controller: _descController,
                         maxLines: 4,
-                        decoration: _customInputDecoration(
-                          'Contoh: Kebakaran rumah warga, api sudah membesar dan menyambar kabel...',
-                          Icons.description_outlined,
-                        ).copyWith(
-                          alignLabelWithHint: true,
-                          prefixIcon: const Padding(
-                            padding: EdgeInsets.only(bottom: 60),
-                            child: Icon(Icons.description_outlined, color: FGColors.primary, size: 22),
-                          ),
-                        ),
+                        decoration:
+                            _customInputDecoration(
+                              'Contoh: Kebakaran rumah warga, api sudah membesar dan menyambar kabel...',
+                              Icons.description_outlined,
+                            ).copyWith(
+                              alignLabelWithHint: true,
+                              prefixIcon: const Padding(
+                                padding: EdgeInsets.only(bottom: 60),
+                                child: Icon(
+                                  Icons.description_outlined,
+                                  color: FGColors.primary,
+                                  size: 22,
+                                ),
+                              ),
+                            ),
                       ),
                       const SizedBox(height: 24),
                       const Text(
                         'Alamat Persis / Patokan',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: FGColors.textPrimary),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                          color: FGColors.textPrimary,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       TextField(
                         controller: _addressController,
-                        decoration: _customInputDecoration('Jl. Merdeka No. 10, sebelah warung makan', Icons.location_city_outlined),
+                        decoration: _customInputDecoration(
+                          'Jl. Merdeka No. 10, sebelah warung makan',
+                          Icons.location_city_outlined,
+                        ),
                       ),
                       const SizedBox(height: 24),
                       const Text(
                         'Bukti Foto Kejadian',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: FGColors.textPrimary),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                          color: FGColors.textPrimary,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       if (_selectedImage != null)
@@ -643,15 +766,23 @@ class _NewReportScreenState extends ConsumerState<NewReportScreen> {
                               top: 12,
                               right: 12,
                               child: GestureDetector(
-                                onTap: () => setState(() => _selectedImage = null),
+                                onTap: () =>
+                                    setState(() => _selectedImage = null),
                                 child: Container(
                                   padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                     color: Colors.black87,
                                     shape: BoxShape.circle,
-                                    border: Border.all(color: Colors.white24, width: 1.5),
+                                    border: Border.all(
+                                      color: Colors.white24,
+                                      width: 1.5,
+                                    ),
                                   ),
-                                  child: const Icon(Icons.close, color: Colors.white, size: 18),
+                                  child: const Icon(
+                                    Icons.close,
+                                    color: Colors.white,
+                                    size: 18,
+                                  ),
                                 ),
                               ),
                             ),
@@ -669,16 +800,27 @@ class _NewReportScreenState extends ConsumerState<NewReportScreen> {
                                   decoration: BoxDecoration(
                                     color: FGColors.bg,
                                     borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(color: FGColors.border, width: 1),
+                                    border: Border.all(
+                                      color: FGColors.border,
+                                      width: 1,
+                                    ),
                                   ),
                                   child: const Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(Icons.camera_alt_outlined, color: FGColors.primary, size: 32),
+                                      Icon(
+                                        Icons.camera_alt_outlined,
+                                        color: FGColors.primary,
+                                        size: 32,
+                                      ),
                                       SizedBox(height: 8),
                                       Text(
                                         'Ambil Kamera',
-                                        style: TextStyle(fontSize: 12, color: FGColors.textPrimary, fontWeight: FontWeight.bold),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: FGColors.textPrimary,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -695,16 +837,27 @@ class _NewReportScreenState extends ConsumerState<NewReportScreen> {
                                   decoration: BoxDecoration(
                                     color: FGColors.bg,
                                     borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(color: FGColors.border, width: 1),
+                                    border: Border.all(
+                                      color: FGColors.border,
+                                      width: 1,
+                                    ),
                                   ),
                                   child: const Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(Icons.image_outlined, color: Colors.blue, size: 32),
+                                      Icon(
+                                        Icons.image_outlined,
+                                        color: Colors.blue,
+                                        size: 32,
+                                      ),
                                       SizedBox(height: 8),
                                       Text(
                                         'Pilih Galeri',
-                                        style: TextStyle(fontSize: 12, color: FGColors.textPrimary, fontWeight: FontWeight.bold),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: FGColors.textPrimary,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -716,28 +869,40 @@ class _NewReportScreenState extends ConsumerState<NewReportScreen> {
                       const SizedBox(height: 24),
                       const Text(
                         'Informasi Tambahan / Kontak',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: FGColors.textPrimary),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                          color: FGColors.textPrimary,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       TextField(
                         controller: _notesController,
                         maxLines: 2,
-                        decoration: _customInputDecoration(
-                          'Catatan (opsional): Ada warga terjebak...',
-                          Icons.note_alt_outlined,
-                        ).copyWith(
-                          alignLabelWithHint: true,
-                          prefixIcon: const Padding(
-                            padding: EdgeInsets.only(bottom: 24),
-                            child: Icon(Icons.note_alt_outlined, color: FGColors.primary, size: 22),
-                          ),
-                        ),
+                        decoration:
+                            _customInputDecoration(
+                              'Catatan (opsional): Ada warga terjebak...',
+                              Icons.note_alt_outlined,
+                            ).copyWith(
+                              alignLabelWithHint: true,
+                              prefixIcon: const Padding(
+                                padding: EdgeInsets.only(bottom: 24),
+                                child: Icon(
+                                  Icons.note_alt_outlined,
+                                  color: FGColors.primary,
+                                  size: 22,
+                                ),
+                              ),
+                            ),
                       ),
                       const SizedBox(height: 12),
                       TextField(
                         controller: _contactController,
                         keyboardType: TextInputType.phone,
-                        decoration: _customInputDecoration('Nomor HP Darurat (opsional)', Icons.phone_outlined),
+                        decoration: _customInputDecoration(
+                          'Nomor HP Darurat (opsional)',
+                          Icons.phone_outlined,
+                        ),
                       ),
                       const SizedBox(height: 20),
                       if (_error != null)
@@ -750,7 +915,11 @@ class _NewReportScreenState extends ConsumerState<NewReportScreen> {
                           ),
                           child: Row(
                             children: [
-                              const Icon(Icons.error_outline, color: FGColors.primary, size: 20),
+                              const Icon(
+                                Icons.error_outline,
+                                color: FGColors.primary,
+                                size: 20,
+                              ),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
